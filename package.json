@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@nestjs/cli": "^9.2.0"
+  },
+  "scripts": {
+    "start:prod": "./nest-app/src/main.ts"
+  }
+}
+
