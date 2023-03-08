@@ -4,6 +4,11 @@ FROM node:14-alpine
 # Set the working directory to /app
 WORKDIR /app
 
+# Install NestJS CLI globally
+RUN npm install @nestjs/cli
+
+# Create a new NestJS application named "nest-app"
+RUN npx @nestjs/cli new nest-app --strict
 # Copy the package.json and package-lock.json
 COPY package*.json ./
 
