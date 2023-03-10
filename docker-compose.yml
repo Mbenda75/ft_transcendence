@@ -37,16 +37,16 @@ services:
     container_name: nestjs-app
     image: nestjs-app
     build:
-      dockerfile: ./Back/Dockerfile
+      context: ./Back
+      dockerfile: Dockerfile
     ports:
-      - 3001:3001
+      - 3000:3000
     networks:
       - nesjs-network
     depends_on:
       - postgres
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./Back:/usr/src/app
     restart: unless-stopped
 
 
