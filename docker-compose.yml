@@ -1,22 +1,67 @@
-version: '3.9'
- 
-services:
+version: '3.3'
 
-  db:
+
+networks:
+  nesjs-network:
+    driver: bridge
+
+services:
+  postgres:
     image: postgres
+    container_name: postgres
     restart: always
+    ports:
+      - 5432:5432
     #environment:
-      #POSTGRES_PASSWORD: 0000
+     # POSTGRES_PASSWORD: 0000 
+      #POSTGRES_DB:  ${DB_USER}
+      #POSTGRES_USER:  ${DB_NAME}
+    networks:
+      - nesjs-network
+
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma
     links:
-      - db
+      - postgres
     #environment:
-     # PMA_HOST: db
+      #PMA_HOST: db
       #PMA_PORT: 3306
       #PMA_ARBITRARY: 1
     restart: always
     ports:
-      - 8080:8080
+      - 8080:80
+
+  Backend:
+    container_name: nestjs-app
+    image: nestjs-app
+    build:
+      dockerfile: ./Back/Dockerfile
+    ports:
+      - 3001:3001
+    networks:
+      - nesjs-network
+    depends_on:
+      - postgres
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+
+
+#  Frontend:
+ #   build:
+ #     
+ #     dockerfile: ./Front/Dockerfile
+ #   ports:
+ #     - "3000:3000"
+ #   volumes:
+ #     - ./frontend:/usr/src/app
+ #     - /usr/src/app/node_modules
+ #   networks:
+ #     - nesjs-network
+ #   restart: always
+ #   container_name: Frontend
+ #   depends_on:
+ #     - Backend
