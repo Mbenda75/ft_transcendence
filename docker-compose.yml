@@ -55,19 +55,18 @@ services:
       - /usr/src/app/node_modules
     restart: unless-stopped
 
-
-  # frontend:
-  #   container_name: frontend
-  #   build:
-  #     context: ./Front
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3001:3001"
-  #   volumes:
-  #      - ./Front:/usr/src/app
-  #      - /usr/src/app/node_modules
-  #   networks:
-  #     - net-app
-  #   restart: unless-stopped
-  #   depends_on:
-  #      - backend
+  frontend:
+    container_name: frontend
+    build:
+      context: ./Front
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./Front:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+       - net-app
+    restart: unless-stopped
+    depends_on:
+      - backend
